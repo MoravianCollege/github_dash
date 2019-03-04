@@ -2,27 +2,25 @@
 import os
 from github import Github
 from dotenv import load_dotenv
+from repo_users import RepoUsers
 
 load_dotenv()
 
 g = Github(os.getenv('GITHUB_TOKEN'))
 
-def print_stats(repo_name):
 
-    repo = g.get_repo(repo_name)
+def get_name(named_user):
+    if named_user.name is None:
+        return named_user.login
+    return named_user.name
 
-    print(repo.name)
 
-    names = []
-    counts = []
+repo = g.get_repo('MoravianCollege/clashboard')
 
-    for stats_contrib in repo.get_stats_contributors():
-        names.append('{} ({})'.format(stats_contrib.author.name, stats_contrib.author.login))
-        counts.append(stats_contrib.total)
 
-        print(stats_contrib.author.name, stats_contrib.author.login, stats_contrib.total)
+for pr in repo.get_pulls(state='all'):
+    for comment in pr.get_comments():
+        print('comment:', comment, get_name(comment.user))
 
-    return names, counts
-
-print_stats('MoravianCollege/mirrulations')
-print_stats('MoravianCollege/clashboard')
+    for issue_comment in pr.get_issue_comments():
+        print('issue comment:', issue_comment, get_name(issue_comment.user))
