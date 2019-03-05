@@ -13,12 +13,18 @@ that displays stats for Github repos.
 * Change the password: `sudo passwd pi`
 * Update the package manager: `sudo apt-get update`
 * Install pip3: `sudo apt-get install python3-pip`
-* Install [gunicorn](https://gunicorn.org/): `pip3 install gunicorn`
+* Install [gunicorn](https://gunicorn.org/): `sudo pip3 install gunicorn`
 * Clone this repo to the Pi (and go into the directory)
 * Install the dependencies (as root): `sudo pip3 install -r requirements.txt`
 * Create a file named `.env` that contains `GITHUB_TOKEN=<TOKEN>` (replace `<TOKEN>` with a [GitHub Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with `repo` access)
 * Note the name of the directory: `pwd`
-* Edit `/etc/rc.local` and add the following *above* `exit 0`: `gunicorn --chdir  <repo dir> app:app.server &` (Replace `<repo dir>` and note the `&` at the end!)
+* Edit `/etc/rc.local` and add the following *above* `exit 0`: (Replace `<repo dir>` with the absolute path 
+  and note the `&` at the end of each line!)
+   ```
+   python3 <repo dir>/src/github_collect/collector.py &
+   gunicorn --chdir  <repo dir>/src/github_dash app:app.server &
+   ``` 
+   
 * Reboot: `sudo reboot`
 * Point a web browser at `http://<Pi IP>`
 * Add the dashboard as an asset: `http://localhost:8000`
