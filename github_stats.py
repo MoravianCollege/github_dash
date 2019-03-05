@@ -41,6 +41,7 @@ def get_name(named_user):
     if not user_cache.is_cached(named_user.login):
         if named_user.name is None:
             user_cache.cache(named_user.login, named_user.login)
-        user_cache.cache(named_user.login, named_user.name)
+        else:
+            user_cache.cache(named_user.login, named_user.name)
 
     return user_cache.get_value(named_user.login)
