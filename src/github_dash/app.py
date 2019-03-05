@@ -18,6 +18,16 @@ def get_next_update_time():
     return r.get('next_update').decode()
 
 
+def get_used_api_calls():
+    r = Redis()
+    return r.get('used').decode()
+
+
+def get_remaining_api_calls():
+    r = Redis()
+    return r.get('remaining').decode()
+
+
 def make_stacked_bar_plot(repo_name):
     r = Redis()
     repo = eval(r.get(repo_name))
@@ -46,7 +56,9 @@ def make_stacked_bar_plot(repo_name):
 app.layout = html.Div(children=[
     make_stacked_bar_plot('MoravianCollege/clashboard'),
     make_stacked_bar_plot('MoravianCollege/mirrulations'),
-    html.Div('Last Update: {}  Next Update: {}'.format(get_last_update_time(), get_next_update_time()))
+    html.Div('Last Update: {};  Next Update: {}; API calls used this update: {};  Available API calls remaining {}'
+             .format(get_last_update_time(), get_next_update_time(), get_used_api_calls(),
+                     get_remaining_api_calls()))
 ])
 
 

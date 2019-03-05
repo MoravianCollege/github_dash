@@ -1,9 +1,12 @@
 from redis import Redis
 from github_collect.github_stats import make_user_stats
 import time
-
+from github import Github
 import datetime
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 r = Redis()
 
 repos = ['MoravianCollege/mirrulations', 'MoravianCollege/clashboard']
@@ -15,7 +18,12 @@ def make_hour_minute_time_string(timestamp):
 
 
 def go():
+
+    g = Github(os.getenv('GITHUB_TOKEN'))
+
     while True:
+
+        before = g.rate_limiting[0]
 
         try:
             for repo_name in repos:
@@ -31,6 +39,15 @@ def go():
             r.set('next_update', make_hour_minute_time_string(next_update))
         except:
             pass
+
+        g.get_rate_limit()
+        after = g.rate_limiting[0]
+        used = before - after
+
+        r.set('used', used)
+        r.set('remaining', after)
+
+        print(before, after, used)
 
         time.sleep(60 * DELAY_MINUTES)
 
