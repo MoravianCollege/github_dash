@@ -1,5 +1,5 @@
 
-from user_cache import user_cache
+from github_collect.user_cache import user_cache
 
 
 def test_missing_user():

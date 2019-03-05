@@ -1,5 +1,5 @@
 
-from user_stats import UserStats
+from github_collect.user_stats import UserStats
 
 
 class RepoUsers:

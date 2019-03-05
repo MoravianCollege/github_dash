@@ -1,5 +1,5 @@
 
-from user_stats import UserStats
+from github_collect.user_stats import UserStats
 
 
 def test_new_stats_are_all_zeros():

@@ -1,5 +1,5 @@
 
-from repo_users import RepoUsers
+from github_collect.repo_users import RepoUsers
 
 
 def test_new_instance_empty():

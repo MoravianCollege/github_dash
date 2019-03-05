@@ -1,7 +1,7 @@
-from repo_users import RepoUsers
+from github_collect.repo_users import RepoUsers
 from github import Github
 from dotenv import load_dotenv
-from user_cache import user_cache
+from github_collect.user_cache import user_cache
 
 import os
 
