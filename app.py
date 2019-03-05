@@ -13,9 +13,7 @@ def make_stacked_bar_plot(repo_name):
 
     return {
         'data': [
-            # Comments ommited for not for performance reasons.  This nearly
-            # doubles the number of API calls.  Also commented out out in github_stats.py
-            #{'x': repo['names'], 'y': repo['comments'], 'type': 'bar', 'name': 'Comments'},
+            {'x': repo['names'], 'y': repo['comments'], 'type': 'bar', 'name': 'Comments'},
             {'x': repo['names'], 'y': repo['merges'], 'type': 'bar', 'name': 'Merges'},
             {'x': repo['names'], 'y': repo['closed_pull_requests'], 'type': 'bar',
              'name': 'Closed Pull Requests'},
