@@ -2,46 +2,53 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from github_collect.github_stats import make_user_stats
+from redis import Redis
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
+def get_last_update_time():
+    r = Redis()
+    return r.get('last_update').decode()
+
+
+def get_next_update_time():
+    r = Redis()
+    return r.get('next_update').decode()
+
+
 def make_stacked_bar_plot(repo_name):
-    repo = make_user_stats(repo_name).get_dict_of_arrays()
+    r = Redis()
+    repo = eval(r.get(repo_name))
 
-    return {
-        'data': [
-            {'x': repo['names'], 'y': repo['comments'], 'type': 'bar', 'name': 'Comments'},
-            {'x': repo['names'], 'y': repo['merges'], 'type': 'bar', 'name': 'Merges'},
-            {'x': repo['names'], 'y': repo['closed_pull_requests'], 'type': 'bar',
-             'name': 'Closed Pull Requests'},
-            {'x': repo['names'], 'y': repo['open_pull_requests'], 'type': 'bar',
-             'name': 'Open Pull Requests'},
-            {'x': repo['names'], 'y': repo['commits'], 'type': 'bar', 'name': 'Commits'},
+    return dcc.Graph(
+        id='{}-graph'.format(repo_name),
+        figure={
+            'data': [
+                {'x': repo['names'], 'y': repo['comments'], 'type': 'bar', 'name': 'Comments'},
+                {'x': repo['names'], 'y': repo['merges'], 'type': 'bar', 'name': 'Merges'},
+                {'x': repo['names'], 'y': repo['closed_pull_requests'], 'type': 'bar',
+                 'name': 'Closed Pull Requests'},
+                {'x': repo['names'], 'y': repo['open_pull_requests'], 'type': 'bar',
+                 'name': 'Open Pull Requests'},
+                {'x': repo['names'], 'y': repo['commits'], 'type': 'bar', 'name': 'Commits'},
 
-        ],
-        'layout': {
-            'title': '{} Activity'.format(repo_name),
-            'barmode': 'stack'
+            ],
+            'layout': {
+                'title': 'Activity for {}'.format(repo_name),
+                'barmode': 'stack'
+            }
         }
-    }
+    )
 
 
 app.layout = html.Div(children=[
-
-    dcc.Graph(
-        id='clashboard-graph',
-        figure=make_stacked_bar_plot('MoravianCollege/clashboard')
-    ),
-
-    dcc.Graph(
-        id='mirrulations-graph',
-        figure=make_stacked_bar_plot('MoravianCollege/mirrulations')
-    ),
-
+    make_stacked_bar_plot('MoravianCollege/clashboard'),
+    make_stacked_bar_plot('MoravianCollege/mirrulations'),
+    html.Div('Last Update: {}  Next Update: {}'.format(get_last_update_time(), get_next_update_time()))
 ])
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
