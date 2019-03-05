@@ -47,8 +47,6 @@ def go():
         r.set('used', used)
         r.set('remaining', after)
 
-        print(before, after, used)
-
         time.sleep(60 * DELAY_MINUTES)
 
 

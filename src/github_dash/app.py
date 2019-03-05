@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 from redis import Redis
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -53,13 +54,27 @@ def make_stacked_bar_plot(repo_name):
     )
 
 
-app.layout = html.Div(children=[
-    make_stacked_bar_plot('MoravianCollege/clashboard'),
-    make_stacked_bar_plot('MoravianCollege/mirrulations'),
-    html.Div('Last Update: {};  Next Update: {}; API calls used this update: {};  Available API calls remaining {}'
-             .format(get_last_update_time(), get_next_update_time(), get_used_api_calls(),
-                     get_remaining_api_calls()))
-])
+app.layout = html.Div([
+    dcc.Interval(
+        id='interval-component',
+        interval=1 * 1000,  # in milliseconds
+        n_intervals=0
+    ),
+    html.Div(id='main_div')
+]
+)
+
+
+@app.callback(Output('main_div', 'children'),
+              [Input('interval-component', 'n_intervals')])
+def update_plots(n):
+    return [
+        make_stacked_bar_plot('MoravianCollege/clashboard'),
+        make_stacked_bar_plot('MoravianCollege/mirrulations'),
+        html.Div('Last Update: {};  Next Update: {}; API calls used this update: {};  Available API calls remaining {}'
+                 .format(get_last_update_time(), get_next_update_time(), get_used_api_calls(),
+                         get_remaining_api_calls()))
+    ]
 
 
 if __name__ == '__main__':
