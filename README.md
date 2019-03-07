@@ -28,6 +28,7 @@ that displays stats for Github repos.
 * Reboot: `sudo reboot`
 * Point a web browser at `http://<Pi IP>`
 * Add the dashboard as an asset: `http://localhost:8000`
+  * After adding, edit it to make the end date something more than 1 week in the future.
 * Turn on the dashboard asset (and remove the default assets)
 * Under settings, disable "Show spash screen" so the IP is not shown at boot.  Click "Save Settings" to save
 * Reboot again
