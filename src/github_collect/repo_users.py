@@ -33,7 +33,7 @@ class RepoUsers:
 
     def get_dict_of_arrays(self):
         ret = [user.as_dict() for user in self.users.values()]
-        sorted_users = sorted(ret, key=lambda key: key['total'], reverse=True)
+        sorted_users = sorted(ret, key=lambda key: key['name'])
 
         names = [user['name'] for user in sorted_users]
         commits = [user['commits'] for user in sorted_users]
