@@ -9,7 +9,7 @@ import os
 load_dotenv()
 r = Redis()
 
-repos = ['MoravianCollege/mirrulations', 'MoravianCollege/clashboard']
+repos = ['MoravianCollege/capstone2020']
 DELAY_MINUTES = 5
 
 
