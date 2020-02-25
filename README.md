@@ -20,6 +20,7 @@ that displays stats for Github repos.
   * `sudo utils/install_server.sh` (to cause the Redis server to run at boot)
 * Clone this repo to the Pi (and go into the directory)
 * Install the dependencies (as root): `sudo pip3 install -r requirements.txt`
+* Install the packages (as root): `sudo pip3 install .`  (use -e if you plan to edit the files after install)
 * Create a file named `.env` that contains `GITHUB_TOKEN=<TOKEN>` (replace `<TOKEN>` with a [GitHub Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with `repo` access)
 * Note the name of the directory: `pwd`
 * Edit `/etc/rc.local` and add the following *above* `exit 0`: (Replace `<repo dir>` with the absolute path 
