@@ -14,6 +14,10 @@ that displays stats for Github repos.
 * Update the package manager: `sudo apt-get update`
 * Install pip3: `sudo apt-get install python3-pip`
 * Install [gunicorn](https://gunicorn.org/): `sudo pip3 install gunicorn`
+* Download and install [Redis](https://redis.io/)
+  * `make` (to build the program)
+  * `sudo make install` (to copy program files to the default locations)
+  * `sudo utils/install_server.sh` (to cause the Redis server to run at boot)
 * Clone this repo to the Pi (and go into the directory)
 * Install the dependencies (as root): `sudo pip3 install -r requirements.txt`
 * Create a file named `.env` that contains `GITHUB_TOKEN=<TOKEN>` (replace `<TOKEN>` with a [GitHub Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with `repo` access)
@@ -22,7 +26,7 @@ that displays stats for Github repos.
   and note the `&` at the end of each line!)
    ```
    python3 <repo dir>/src/github_collect/collector.py &
-   gunicorn --chdir  <repo dir>/src/github_dash app:app.server &
+   gunicorn --chdir  <repo dir>/src/github_dash -b 0.0.0.0:8050 app:server &
    ``` 
    
 * Reboot: `sudo reboot`
