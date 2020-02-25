@@ -22,8 +22,10 @@ def make_user_stats(repo_name):
         if pr.merged_by is not None:
             repo_users.register_merges(get_name(pr.merged_by), 1)
 
-        # See comment in app.py
-        for comment in pr.get_comments():
+        for comment in pr.get_review_comments():
+            repo_users.register_comments(get_name(comment.user), 1)
+
+        for comment in pr.get_issue_comments():
             repo_users.register_comments(get_name(comment.user), 1)
 
     # state = open by default
