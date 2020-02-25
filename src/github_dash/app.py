@@ -7,7 +7,7 @@ from redis import Redis
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
+server = app.server
 
 def get_last_update_time():
     r = Redis()
@@ -69,8 +69,8 @@ app.layout = html.Div([
               [Input('interval-component', 'n_intervals')])
 def update_plots(n):
     return [
-        make_stacked_bar_plot('MoravianCollege/clashboard'),
-        make_stacked_bar_plot('MoravianCollege/mirrulations'),
+        make_stacked_bar_plot('MoravianCollege/capstone2020'),
+        #make_stacked_bar_plot('MoravianCollege/cs334practice'),
         html.Div('Last Update: {};  Next Update: {}; API calls used this update: {};  Available API calls remaining {}'
                  .format(get_last_update_time(), get_next_update_time(), get_used_api_calls(),
                          get_remaining_api_calls()))
