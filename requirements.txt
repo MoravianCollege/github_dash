@@ -4,4 +4,4 @@ dash-core-components==0.43.1
 python-dotenv==0.10.1
 PyGithub==1.43.5
 pytest==4.3.0
-redis==3.2.0
+redis==4.5.3
